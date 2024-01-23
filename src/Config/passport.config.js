@@ -12,7 +12,7 @@ const initializePassport =()=>{
     {passReqToCallback: true, usernameField: "email"},
     
     async (req, username, password, done) =>{
-      const {first_name, last_name, email,age,password} = req.body;
+      const {first_name, last_name, email,age} = req.body;
       try{
         const exist = await UserModel.findOne({email});
         if(exist){
@@ -42,8 +42,6 @@ const initializePassport =()=>{
     async(req, username, password, done)=>{
       try{
         const user = await UserModel.findOne({email:username});
-        console.log("Usuario encontrado para login:");
-        console.log(user);
         if (!user) {
           console.warn("User doesn't exists with username: " + username);
           return done(null, false);
@@ -68,10 +66,12 @@ const initializePassport =()=>{
 
   passport.deserializeUser(async (id, done) => {
     try {
-        let user = await userModel.findById(id);
+        let user = await UserModel.findById(id);
         done(null, user)
     } catch (error) {
         console.error("Error deserializando el usuario: " + error);
     }
   })
 }
+
+export default initializePassport;

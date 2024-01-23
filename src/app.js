@@ -13,7 +13,7 @@ import sessionrouter from "./routes/session.router.js";
 import userviews from "./routes/users.views.router.js";
 import session from "express-session";
 import MongoStore from "connect-mongo";
-
+import initializePassport from "./Config/passport.config.js";
 
 const app = express();
 const port = 8080;
@@ -25,6 +25,8 @@ mongoose.connect('mongodb+srv://Lu0:Lu0@ecomerce.zb53nge.mongodb.net/?retryWrite
 .catch(error => {
     console.error('Connection fail', error);
 });
+
+
 
 const httpServer = app.listen(port, () => console.log(`Server listening on port ${port}`));
 const io = new Server(httpServer);
@@ -64,6 +66,11 @@ app.use(session({
   saveUninitialized:true
 
 }))
+
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 app.use("/", viewsRouter); 
 app.use("/api/products",productRouter);
