@@ -14,6 +14,7 @@ import userviews from "./routes/users.views.router.js";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import initializePassport from "./Config/passport.config.js";
+import githubloginrouter from "./routes/github-login.views.router.js"
 
 const app = express();
 const port = 8080;
@@ -25,7 +26,6 @@ mongoose.connect('mongodb+srv://Lu0:Lu0@ecomerce.zb53nge.mongodb.net/?retryWrite
 .catch(error => {
     console.error('Connection fail', error);
 });
-
 
 
 const httpServer = app.listen(port, () => console.log(`Server listening on port ${port}`));
@@ -77,6 +77,8 @@ app.use("/api/products",productRouter);
 app.use("/api/carts",cartRouter);
 app.use("/users",userviews);
 app.use("/api/sessions",sessionrouter);
+app.use("/github", githubloginrouter);
+
 
 // io.on('connection', (socket) => {
 //   console.log('Nuevo cliente conectado');
